@@ -1,4 +1,5 @@
 import "./App.css";
+import Gallery from "./components/Gallery";
 import LoginGate from "./components/LoginGate";
 import UploadForm from "./components/UploadForm";
 
@@ -11,7 +12,7 @@ function App() {
         </header>
         <main>
           <UploadForm />
-          {/* gallery will be here soon! */}
+          <Gallery />
         </main>
       </div>
     </LoginGate>
