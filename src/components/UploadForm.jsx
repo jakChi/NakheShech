@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { db } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import emailjs from "emailjs-com";
 
 const UploadForm = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,30 @@ const UploadForm = () => {
   });
   const [loading, setLoading] = useState(false);
 
+  const sendEmailNotification = (data) => {
+    const templateParams = {
+      title: data.title,
+      sharedBy: data.sharedBy,
+      url: data.url,
+      category: data.category,
+      to_email: "kobachincharauli8@gmail.com, lukainasaridze04@gmail.com", // this can be group email as well
+    };
+
+    emailjs
+      .send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        templateParams,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY, // es romelia???
+      )
+      .then((response) => {
+        console.log("Email sent successfully!", response.status, response.text);
+      })
+      .catch((err) => {
+        console.error("Failed to send email:", err);
+      });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -23,11 +48,15 @@ const UploadForm = () => {
         .split(",")
         .map((tag) => tag.trim().toLowerCase());
 
-      await addDoc(collection(db, "uploads"), {
-        ...formData,
-        tags: tagsArray,
-        createdAt: serverTimestamp(),
-      });
+      await addDoc(
+        collection(db, "uploads"),
+        {
+          ...formData,
+          tags: tagsArray,
+          createdAt: serverTimestamp(),
+        },
+        sendEmailNotification(formData),
+      );
 
       alert("Upload successful!");
       // Reset form
