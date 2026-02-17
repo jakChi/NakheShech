@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { db } from "../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import emailjs from "emailjs-com";
+import styles from "./UploadForm.module.css";
 
 const UploadForm = () => {
   const [formData, setFormData] = useState({
@@ -13,11 +14,13 @@ const UploadForm = () => {
     sharedBy: "",
   });
   const [loading, setLoading] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const sendEmailNotification = (data) => {
     const templateParams = {
       title: data.title,
       sharedBy: data.sharedBy,
+      description: data.description,
       url: data.url,
       category: data.category,
       to_email: "kobachincharauli8@gmail.com, lukainasaridze04@gmail.com", // this can be group email as well
@@ -28,7 +31,7 @@ const UploadForm = () => {
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
         import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
         templateParams,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY, // es romelia???
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
       )
       .then((response) => {
         console.log("Email sent successfully!", response.status, response.text);
@@ -76,71 +79,88 @@ const UploadForm = () => {
     }
   };
 
+  const handleFocus = () => setIsExpanded(true);
+
   return (
-    <section
-      style={{
-        maxWidth: "500px",
-        margin: "20px auto",
-        padding: "20px",
-        border: "1px solid #ddd",
-        borderRadius: "8px",
-      }}
-    >
-      <h3>Share New Inspiration</h3>
-      <form
-        onSubmit={handleSubmit}
-        style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-      >
+    <section className={styles.formWrapper}>
+      <form onSubmit={handleSubmit} className={styles.mainForm}>
+        {/* The Title is always visible */}
         <input
+          className={styles.titleInput}
           type="text"
-          placeholder="Title"
+          placeholder="Share something new..."
           required
+          onFocus={handleFocus}
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
         />
-        <input
-          type="url"
-          placeholder="URL (https://...)"
-          required
-          value={formData.url}
-          onChange={(e) => setFormData({ ...formData, url: e.target.value })}
-        />
-        <textarea
-          placeholder="Description"
-          value={formData.description}
-          onChange={(e) =>
-            setFormData({ ...formData, description: e.target.value })
-          }
-        />
-        <select
-          value={formData.category}
-          onChange={(e) =>
-            setFormData({ ...formData, category: e.target.value })
-          }
+
+        {/* This div controls the expansion of the rest of the fields */}
+        <div
+          className={`${styles.expandableArea} ${isExpanded ? styles.expanded : ""}`}
         >
-          <option value="Design">Design</option>
-          <option value="Development">Development</option>
-          <option value="Art">Art</option>
-          <option value="Reference">Reference</option>
-        </select>
-        <input
-          type="text"
-          placeholder="Tags (comma separated: minimal, blue, react)"
-          value={formData.tags}
-          onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-        />
-        <input
-          type="text"
-          placeholder="Your Name"
-          required
-          value={formData.sharedBy}
-          onChange={(e) =>
-            setFormData({ ...formData, sharedBy: e.target.value })
-          }
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? "Uploading..." : "Share with Group"}
-        </button>
+          <input
+            className={styles.inputField}
+            type="url"
+            placeholder="URL (https://...)"
+            required={isExpanded}
+            value={formData.url}
+            onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+          />
+          <textarea
+            className={styles.textArea}
+            placeholder="Description..."
+            value={formData.description}
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.target.value })
+            }
+          />
+
+          <div className={styles.row}>
+            <select
+              className={styles.selectField}
+              value={formData.category}
+              onChange={(e) =>
+                setFormData({ ...formData, category: e.target.value })
+              }
+            >
+              <option value="Design">Design</option>
+              <option value="Development">Development</option>
+              <option value="Art">Art</option>
+            </select>
+            <input
+              className={styles.inputField}
+              type="text"
+              placeholder="Your Name"
+              required={isExpanded}
+              value={formData.sharedBy}
+              onChange={(e) =>
+                setFormData({ ...formData, sharedBy: e.target.value })
+              }
+            />
+          </div>
+
+          <input
+            className={styles.inputField}
+            type="text"
+            placeholder="Tags (comma separated)"
+            value={formData.tags}
+            onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+          />
+
+          <div className={styles.actions}>
+            <button
+              type="button"
+              onClick={() => setIsExpanded(false)}
+              className={styles.cancelBtn}
+            >
+              Cancel
+            </button>
+            <button type="submit" className={styles.submitBtn}>
+              Share
+            </button>
+          </div>
+        </div>
       </form>
     </section>
   );

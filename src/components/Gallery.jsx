@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import styles from "./Gallery.module.css";
 
 const Gallery = () => {
   const [uploads, setUploads] = useState([]);
@@ -31,62 +32,34 @@ const Gallery = () => {
       ),
   );
 
+  useEffect(() => {
+    console.log(uploads);
+  }, [uploads]);
+
   return (
-    <div style={{ marginTop: "40px" }}>
+    <div className={styles.container}>
       <input
+        className={styles.searchBar}
         type="text"
-        placeholder="Search by title or tag..."
-        style={{ width: "100%", padding: "12px", marginBottom: "20px" }}
+        placeholder="Search inspiration..."
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
-          gap: "20px",
-        }}
-      >
+      <div className={styles.grid}>
         {filteredUploads.map((item) => (
-          <div
-            key={item.id}
-            style={{
-              border: "1px solid #eee",
-              padding: "15px",
-              borderRadius: "8px",
-              background: "#f9f9f9",
-            }}
-          >
-            <span style={{ fontSize: "12px", color: "#888" }}>
-              {item.category}
-            </span>
-            <h4 style={{ margin: "10px 0" }}>{item.title}</h4>
-            <p style={{ fontSize: "14px" }}>{item.description}</p>
-            <a
-              href={item.url}
-              target="_blank"
-              rel="noreferrer"
-              style={{ color: "blue" }}
-            >
-              View Resource →
-            </a>
-            <div style={{ marginTop: "10px" }}>
-              {item.tags.map((tag) => (
-                <span
-                  key={tag}
-                  style={{
-                    background: "#e0e0e0",
-                    padding: "2px 6px",
-                    margin: "2px",
-                    fontSize: "11px",
-                    borderRadius: "4px",
-                  }}
-                >
-                  #{tag}
-                </span>
-              ))}
+          <a href={item.url} className={styles.link}>
+            <div key={item.id} className={styles.card}>
+              <h4 className={styles.title}>{item.title}</h4>
+
+              <div>
+                {item.tags.map((tag) => (
+                  <span key={tag} className={styles.tag}>
+                    #{tag}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
+          </a>
         ))}
       </div>
     </div>
