@@ -119,6 +119,17 @@ const UploadForm = () => {
           <option value="Reference">Reference</option>
         </select>
 
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="Your Name"
+          value={formData.sharedBy}
+          onChange={(e) =>
+            setFormData({ ...formData, sharedBy: e.target.value })
+          }
+          required={showMore} // Only require if they opened this section
+        />
+
         {/* The "More" Toggle Button */}
         <button
           type="button"
@@ -146,16 +157,6 @@ const UploadForm = () => {
             onChange={(e) =>
               setFormData({ ...formData, description: e.target.value })
             }
-          />
-          <input
-            className={styles.input}
-            type="text"
-            placeholder="Your Name"
-            value={formData.sharedBy}
-            onChange={(e) =>
-              setFormData({ ...formData, sharedBy: e.target.value })
-            }
-            required={showMore} // Only require if they opened this section
           />
         </div>
 
