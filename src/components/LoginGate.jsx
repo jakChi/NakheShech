@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { doc, getDoc } from "firebase/firestore";
+import styles from "./LoginGate.module.css"; // Import the new CSS
 
 const LoginGate = ({ children }) => {
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [inputKey, setInputKey] = useState("");
   const [error, setError] = useState("");
 
+  // Check localStorage on initial load
+  useEffect(() => {
+    if (localStorage.getItem("isGroupMember") === "true") {
+      setIsAuthorized(true);
+    }
+  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
+    setError(""); // Clear previous errors
 
     try {
-      // Fetch the secret key from Firestore
       const docRef = doc(db, "config", "settings");
       const docSnap = await getDoc(docRef);
 
@@ -20,11 +28,12 @@ const LoginGate = ({ children }) => {
 
         if (inputKey === secretKey) {
           setIsAuthorized(true);
-          // Optional: Save to localStorage so they don't have to re-type it every visit
           localStorage.setItem("isGroupMember", "true");
         } else {
           setError("Incorrect access key. Ask the group admin!");
         }
+      } else {
+        setError("Configuration error: Key not found in database.");
       }
     } catch (err) {
       setError("Error connecting to database.");
@@ -32,43 +41,37 @@ const LoginGate = ({ children }) => {
     }
   };
 
-  // Basic "Gate" UI
-  if (!isAuthorized && !localStorage.getItem("isGroupMember")) {
+  if (!isAuthorized) {
     return (
-      <div
-        style={{
-          padding: "50px",
-          textAlign: "center",
-          fontFamily: "sans-serif",
-        }}
-      >
-        <h2>🔐 Private Group Hub</h2>
-        <p>Please enter the shared access key to enter.</p>
-        <form onSubmit={handleLogin}>
-          <input
-            type="password"
-            value={inputKey}
-            onChange={(e) => setInputKey(e.target.value)}
-            placeholder="Enter Key..."
-            style={{
-              padding: "10px",
-              borderRadius: "5px",
-              border: "1px solid #ccc",
-            }}
-          />
-          <button
-            type="submit"
-            style={{ marginLeft: "10px", padding: "10px 20px" }}
-          >
-            Enter
-          </button>
-        </form>
-        {error && <p style={{ color: "red" }}>{error}</p>}
+      <div className={styles.pageWrapper}>
+        <div className={styles.loginCard}>
+          <span className={styles.icon}>🔐</span>
+          <h2 className={styles.title}>Private Group</h2>
+          <p className={styles.subtitle}>
+            Enter the shared access key to view and share inspiration with the
+            team.
+          </p>
+
+          <form onSubmit={handleLogin} className={styles.form}>
+            <input
+              type="password"
+              className={styles.input}
+              value={inputKey}
+              onChange={(e) => setInputKey(e.target.value)}
+              placeholder="Enter Access Key..."
+              required
+            />
+            <button type="submit" className={styles.button}>
+              Unlock Hub
+            </button>
+          </form>
+
+          {error && <div className={styles.errorBox}>{error}</div>}
+        </div>
       </div>
     );
   }
 
-  // If authorized, show the rest of the app (children)
   return <>{children}</>;
 };
 

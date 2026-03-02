@@ -6,7 +6,7 @@ import UploadForm from "./components/UploadForm";
 function App() {
   return (
     <LoginGate>
-      <div>
+      <div className="appContainer">
         <header className="appHeader">
           <h1> What's New?</h1>
         </header>

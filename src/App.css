@@ -3,11 +3,9 @@
 }
 
 .appContainer {
-  background: #f8fafc;
-  border: 1px solid red;
-  min-height: 100vh;
-  padding: 24px;
-  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
 }
 
 .appHeader {
