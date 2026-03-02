@@ -6,10 +6,16 @@ import UploadForm from "./components/UploadForm";
 function App() {
   return (
     <LoginGate>
-      <div className="App">
-        <main>
+      <div>
+        <header className="appHeader">
+          <h1> What's New?</h1>
+        </header>
+        <div className="appDivider" />
+        <main className="dashboard">
           <UploadForm />
-          <Gallery />
+          <div className="galleryContainer">
+            <Gallery />
+          </div>
         </main>
       </div>
     </LoginGate>

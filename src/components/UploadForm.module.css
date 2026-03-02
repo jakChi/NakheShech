@@ -1,47 +1,126 @@
-.expandableArea {
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth "springy" transition */
+.sidebarForm {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+  width: 300px; /* Fixed width for the sidebar */
+  flex-shrink: 0; /* Prevents the form from squishing when gallery fills up */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+
+  /* Make it 'sticky' so it stays on screen when scrolling the gallery! */
+  position: sticky;
+  top: 24px;
+}
+
+.heading {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.25rem;
+  color: #2d3748;
+}
+
+.formContainer {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.expanded {
-  max-height: 500px; /* High enough to fit all content */
-  opacity: 1;
-  margin-top: 15px;
-  padding-top: 10px;
-  border-top: 1px solid #eee;
-}
-
-.titleInput {
+.input,
+.select,
+.textarea {
   width: 100%;
-  padding: 12px;
-  border: none;
-  font-size: 1.2rem;
-  font-weight: 600;
+  padding: 10px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: #191919;
+  color: #e2e8f0;
+  transition: all 0.2s;
+  box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
   outline: none;
+  border-color: #4299e1;
+  background: white;
+  color: #2d3748;
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
 }
 
-.row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+.textarea {
+  min-height: 80px;
+  resize: vertical;
 }
 
-.actions {
+/* The More Toggle */
+.moreToggleBtn {
+  background: none;
+  border: none;
+  color: #718096;
+  font-size: 0.85rem;
+  text-align: left;
+  padding: 4px 0;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.moreToggleBtn:hover {
+  color: #2d3748;
+}
+
+/* Expandable Area Animation */
+.expandableArea {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.expanded {
+  max-height: 200px;
+  opacity: 1;
+  margin-top: 4px;
+}
+
+/* Action Buttons */
+.actionRow {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
   margin-top: 10px;
 }
 
-.cancelBtn {
-  background: none;
+.clearBtn {
+  background: transparent;
   border: none;
   color: #718096;
+  padding: 8px 16px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 500;
+  transition: background 0.2s;
+}
+
+.clearBtn:hover {
+  background: #edf2f7;
+}
+
+.submitBtn {
+  background: #2d3748;
+  color: white;
+  border: none;
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.submitBtn:hover {
+  background: #1a202c;
 }

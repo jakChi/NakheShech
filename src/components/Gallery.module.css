@@ -15,11 +15,11 @@
 
   /* Initial State */
   background: #f1f5f9;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #1366d2;
   border-radius: 999px;
-  padding: 8px 16px;
+  padding: 8px;
   min-width: 200px;
-  height: 20px; /* Fixed height keeps it stable during expansion */
+  height: 36px; /* Fixed height keeps it stable during expansion */
 
   /* The Secret Sauce: Flex properties */
   flex-grow: 0;
@@ -48,6 +48,7 @@
 
 /* The actual Input text area */
 .searchInput {
+  width: 100%;
   flex: 1; /* Takes up all space between Icon and Clear button */
   border: none;
   background: transparent;

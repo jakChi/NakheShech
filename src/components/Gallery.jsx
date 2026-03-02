@@ -62,7 +62,7 @@ const Gallery = () => {
             ref={inputRef}
             type="text"
             className={styles.searchInput}
-            placeholder="Filter hub..."
+            placeholder="Filter links..."
             onChange={(e) => setSearchTerm(e.target.value)}
           />
 
