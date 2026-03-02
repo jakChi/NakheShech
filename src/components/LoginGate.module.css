@@ -1,6 +1,5 @@
 /* The full-screen background */
 .pageWrapper {
-  border: 1px solid red;
   min-height: 100vh;
   display: flex;
   align-items: center;
