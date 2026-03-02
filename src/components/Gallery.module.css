@@ -1,57 +1,164 @@
-.container {
-  margin-top: 40px;
-  padding: 20px;
-}
-
-.searchBar {
-  width: 100%;
-  padding: 12px;
-  border: 2px solid #ddd;
-  border-radius: 8px;
-  margin-bottom: 24px;
-  font-size: 1rem;
-}
-
+/* The Container for the entire Gallery */
 .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
-}
-
-.card {
-  background: rgb(255, 255, 255);
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px;
   align-items: center;
-  justify-content: space-around;
 }
 
-.title {
-  color: rgb(82, 81, 81);
-  font-size: larger;
-  font-weight: 300;
+/* The Search Pill (The Parent) */
+.searchPill {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  /* Initial State */
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 8px 16px;
+  min-width: 200px;
+  height: 20px; /* Fixed height keeps it stable during expansion */
+
+  /* The Secret Sauce: Flex properties */
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 200px; /* Use a fixed starting number, not 'auto' */
+
+  /* Smooth Animation */
+  transition:
+    flex-basis 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+
+  cursor: text;
+  order: -1; /* Keeps it at the very top/start */
 }
 
-.link {
-  color: purple;
-  font-size: medium;
-  font-weight: 200;
-  text-decoration: dotted;
+/* The Expanded State (Triggered by the input inside being clicked) */
+.searchPill:focus-within {
+  flex-basis: 100%; /* Spans the full width of the flex row */
+  background: #ffffff;
+  border-color: #4299e1;
+  box-shadow: 0 4px 20px rgba(66, 153, 225, 0.15);
+  margin-bottom: 10px; /* Pushes the results down slightly */
 }
 
-.card:hover {
-  transform: translateY(-5px);
+/* The actual Input text area */
+.searchInput {
+  flex: 1; /* Takes up all space between Icon and Clear button */
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 1rem;
+  color: #2d3748;
+  margin-left: 10px;
+}
+
+.searchInput::placeholder {
+  color: #94a3b8;
+  transition: opacity 0.2s;
+}
+
+.searchPill:focus-within .searchInput::placeholder {
+  opacity: 0.7;
+}
+
+/* The Search Icon (Static) */
+.searchIcon {
+  font-size: 1rem;
+  user-select: none;
+  opacity: 0.6;
+}
+
+/* The Clear (X) Button */
+.clearBtn {
+  background: #edf2f7;
+  border: none;
+  color: #718096;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: all 0.2s ease;
+}
+
+.clearBtn:hover {
+  background: #e2e8f0;
+  color: #2d3748;
+  transform: scale(1.1);
+}
+
+/* The Pill */
+.pill {
+  position: relative; /* Necessary for the popup to anchor to it */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px; /* Makes it a pill */
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill:hover {
+  border-color: #4299e1;
+  background: #f7fafc;
+}
+
+.favicon {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #2d3748;
+  white-space: nowrap;
+}
+
+/* The Hover Popup */
+.popup {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  bottom: 120%; /* Sits above the pill */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  background: #2d3748;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition:
+    opacity 0.2s,
+    visibility 0.2s;
+  pointer-events: none; /* Prevents the popup from flickering */
+}
+
+.pill:hover .popup {
+  visibility: visible;
+  opacity: 1;
 }
 
 .tag {
-  background: #edf2f7;
-  color: #4a5568;
-  padding: 4px 8px;
-  border-radius: 15px;
-  font-size: 0.75rem;
-  margin-right: 5px;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  margin: 2px;
 }

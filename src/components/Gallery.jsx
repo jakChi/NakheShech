@@ -6,6 +6,15 @@ import styles from "./Gallery.module.css";
 const Gallery = () => {
   const [uploads, setUploads] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const inputRef = React.useRef(null);
+
+  const handleClear = () => {
+    setSearchTerm("");
+    if (inputRef.current) {
+      inputRef.current.value = ""; // Manually clear the input text
+      inputRef.current.focus(); // Keep the focus so the bar stays expanded
+    }
+  };
 
   useEffect(() => {
     // 1. Reference the collection and sort by newest
@@ -32,35 +41,64 @@ const Gallery = () => {
       ),
   );
 
-  useEffect(() => {
-    console.log(uploads);
-  }, [uploads]);
-
   return (
     <div className={styles.container}>
-      <input
-        className={styles.searchBar}
-        type="text"
-        placeholder="Search inspiration..."
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-
       <div className={styles.grid}>
-        {filteredUploads.map((item) => (
-          <a href={item.url} className={styles.link}>
-            <div key={item.id} className={styles.card}>
-              <h4 className={styles.title}>{item.title}</h4>
+        {/* Search bar */}
+        <div className={styles.searchPill}>
+          <span className={styles.searchIcon}>🔍</span>
+          <input
+            ref={inputRef}
+            type="text"
+            className={styles.searchInput}
+            placeholder="Filter hub..."
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
 
-              <div>
-                {item.tags.map((tag) => (
-                  <span key={tag} className={styles.tag}>
-                    #{tag}
-                  </span>
-                ))}
+          {/* Only show the 'X' if there is text in the search bar */}
+          {searchTerm && (
+            <button
+              className={styles.clearBtn}
+              onClick={handleClear}
+              type="button"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+        {/* Displaying filtered uploads */}
+        {filteredUploads.map((item) => {
+          // Extract domain to get the favicon
+          const domain = new URL(item.url).hostname;
+          const faviconUrl = `https://www.google.com/s2/favicons?sz=64&domain=${domain}`;
+
+          return (
+            <a
+              key={item.id}
+              href={item.url}
+              target="_blank"
+              rel="noreferrer"
+              className={styles.pill}
+            >
+              <img src={faviconUrl} alt="" className={styles.favicon} />
+              <span className={styles.name}>{item.title}</span>
+
+              {/* The Tooltip Popup */}
+              <div className={styles.popup}>
+                <p style={{ margin: "0 0 8px 0", fontSize: "0.8rem" }}>
+                  {item.description}
+                </p>
+                <div className={styles.tagContainer}>
+                  {item.tags.map((tag) => (
+                    <span key={tag} className={styles.tag}>
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
               </div>
-            </div>
-          </a>
-        ))}
+            </a>
+          );
+        })}
       </div>
     </div>
   );
