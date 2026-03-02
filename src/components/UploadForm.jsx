@@ -35,7 +35,8 @@ const UploadForm = () => {
           url: data.url,
           category: data.category,
           tags: data.tags || "None", // Fallback if empty
-          to_email: "kobachincharauli8@gmail.com, lukainasaridze04@gmail.com", // this can be group email as well
+          to_email:
+            "kobachincharauli8@gmail.com, lukainasaridze04@gmail.com, khachidzetatia8@gmail.com", // this can be group email as well
         };
 
         emailjs
