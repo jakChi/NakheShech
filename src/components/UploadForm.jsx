@@ -112,8 +112,8 @@ const UploadForm = () => {
             setFormData({ ...formData, category: e.target.value })
           }
         >
-          <option value="Design">Design</option>
-          <option value="Development">Development</option>
+          <option value="Design">Science</option>
+          <option value="Development">Computer</option>
           <option value="Art">Art</option>
           <option value="Reference">Reference</option>
         </select>
@@ -124,7 +124,7 @@ const UploadForm = () => {
           className={styles.moreToggleBtn}
           onClick={() => setShowMore(!showMore)}
         >
-          {showMore ? "− Less Options" : "+ More Options"}
+          {showMore ? "− Show Less" : "+ Show More"}
         </button>
 
         {/* Conditional Fields (Animated via CSS) */}

@@ -3,7 +3,7 @@ import { db } from "../firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import styles from "./Gallery.module.css";
 
-const CATEGORIES = ["All", "Design", "Development", "Art", "Reference"];
+const CATEGORIES = ["All", "Science", "Computer", "Art", "Reference"];
 
 const Gallery = () => {
   const [uploads, setUploads] = useState([]);
