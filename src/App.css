@@ -1,7 +1,3 @@
-* {
-  box-sizing: border-box;
-}
-
 .appContainer {
   max-width: 1200px;
   margin: auto;
@@ -9,6 +5,7 @@
 }
 
 .appHeader {
+  font-size: 1.5rem;
   color: #2d3748;
   text-align: center;
 }
@@ -33,4 +30,19 @@
   margin-top: 20px;
   width: 100%;
   max-width: 1200px;
+}
+
+@media (max-width: 768px) {
+  .appHeader {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+  }
+
+  .appDivider {
+    margin-bottom: 3rem;
+  }
+
+  .dashboard {
+    flex-direction: column;
+  }
 }

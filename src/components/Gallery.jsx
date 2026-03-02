@@ -3,12 +3,18 @@ import { db } from "../firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import styles from "./Gallery.module.css";
 
-const CATEGORIES = ["All", "Science", "Computer", "Art", "Reference"];
+const CATEGORIES = [
+  { name: "All", icon: "📁" },
+  { name: "Science", icon: "🔬" },
+  { name: "Computer", icon: "💻" },
+  { name: "Art", icon: "🎨" },
+  { name: "Reference", icon: "📚" },
+];
 
 const Gallery = () => {
   const [uploads, setUploads] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState(CATEGORIES[0]);
   const inputRef = React.useRef(null);
 
   const handleClear = () => {
@@ -46,7 +52,8 @@ const Gallery = () => {
 
     // Check if it matches the category (If 'All' is selected, automatically match)
     const matchesCategory =
-      selectedCategory === "All" || item.category === selectedCategory;
+      selectedCategory.name === "All" ||
+      item.category === selectedCategory.name;
 
     // Only return the item if it passes BOTH tests
     return matchesSearch && matchesCategory;
@@ -54,6 +61,7 @@ const Gallery = () => {
 
   return (
     <div className={styles.container}>
+      <header className={styles.galleryHeader}>Links Gallery</header>
       <div className={styles.grid}>
         {/* 1. Search bar */}
         <div className={styles.searchPill}>
@@ -83,9 +91,10 @@ const Gallery = () => {
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`${styles.filterPill} ${selectedCategory === category ? styles.activeFilter : ""}`}
+            className={`${styles.filterPill} ${selectedCategory.name === category.name ? styles.activeFilter : ""}`}
           >
-            {category}
+            <span className={styles.filterPillIcon}>{category.icon}</span>
+            <span className={styles.filterPillName}>{category.name}</span>
           </button>
         ))}
 
@@ -101,16 +110,21 @@ const Gallery = () => {
               href={item.url}
               target="_blank"
               rel="noreferrer"
-              className={styles.pill}
+              className={styles.itemCard}
             >
               <img src={faviconUrl} alt="" className={styles.favicon} />
-              <span className={styles.name}>{item.title}</span>
+
+              <span className={styles.itemTitle}>{item.title}</span>
 
               {/* The Tooltip Popup */}
               <div className={styles.popup}>
-                <p style={{ margin: "0 0 8px 0", fontSize: "0.8rem" }}>
-                  {item.description}
-                </p>
+                <h4 className={styles.popupTitle}>{item.title}</h4>
+                <span className={styles.popupCategory}>{item.category}</span>
+
+                {item.description && (
+                  <p className={styles.popupDesc}>{item.description}</p>
+                )}
+
                 <div className={styles.tagContainer}>
                   {item.tags.map((tag) => (
                     <span key={tag} className={styles.tag}>

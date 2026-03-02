@@ -13,10 +13,20 @@
 }
 
 .heading {
-  margin-top: 0;
-  margin-bottom: 20px;
+  margin: 0;
   font-size: 1.25rem;
   color: #2d3748;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.mobileToggleBtn {
+  display: none; /* Hidden on desktop! */
 }
 
 .formContainer {
@@ -30,11 +40,10 @@
 .textarea {
   width: 100%;
   padding: 10px 14px;
-  border: 1px solid #e2e8f0;
+  border: 1px solid #0f1010;
   border-radius: 8px;
   font-size: 0.9rem;
-  background: #191919;
-  color: #e2e8f0;
+  color: #0f1010;
   transition: all 0.2s;
   box-sizing: border-box; /* Ensures padding doesn't break width */
 }
@@ -44,8 +53,6 @@
 .textarea:focus {
   outline: none;
   border-color: #4299e1;
-  background: white;
-  color: #2d3748;
   box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
 }
 
@@ -97,8 +104,8 @@
 
 .clearBtn {
   background: transparent;
-  border: none;
-  color: #718096;
+  border: 1px solid #e20d0d;
+  color: #e20d0d;
   padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
@@ -107,13 +114,13 @@
 }
 
 .clearBtn:hover {
-  background: #edf2f7;
+  background: #e20d0d;
+  color: white;
 }
 
 .submitBtn {
-  background: #2d3748;
-  color: white;
-  border: none;
+  border: 1px dashed #1a202c;
+  color: #1a202c;
   padding: 8px 20px;
   border-radius: 8px;
   cursor: pointer;
@@ -121,6 +128,73 @@
   transition: background 0.2s;
 }
 
+.submitIcon {
+  font-size: 1.1rem;
+}
+
 .submitBtn:hover {
   background: #1a202c;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .sidebarForm {
+    width: 100%;
+    position: relative;
+    top: 0;
+    padding: 16px;
+    box-shadow: none;
+  }
+
+  .headerRow {
+    margin-bottom: 0;
+  }
+
+  .heading {
+    display: none;
+  }
+
+  .input,
+  .select,
+  .textarea {
+    width: 100%;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+    box-sizing: border-box; /* Ensures padding doesn't break width */
+  }
+
+  .mobileToggleBtn {
+    display: block; /* Visible on phones! */
+    background: #2d3748;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin: auto;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .formContent {
+    display: none; /* Hide the form by default on phones */
+  }
+
+  .mobileOpen {
+    display: block; /* Show the form when the state is true */
+    margin-top: 20px;
+    animation: slideDown 0.3s ease forwards;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }

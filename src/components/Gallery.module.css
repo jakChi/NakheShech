@@ -1,4 +1,13 @@
 /* The Container for the entire Gallery */
+.galleryHeader {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
 .grid {
   display: flex;
   flex-wrap: wrap;
@@ -119,6 +128,11 @@
   background: #f7fafc;
 }
 
+.filterPillIcon {
+  margin-right: 4px;
+  font-size: 1rem;
+}
+
 /* The Active (Selected) State */
 .activeFilter {
   background: #2d3748;
@@ -132,25 +146,26 @@
   border-color: #1a202c;
 }
 
-/* The Pill */
-.pill {
-  position: relative; /* Necessary for the popup to anchor to it */
+/* The default Pill for desktop view */
+.itemCard {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 16px;
+  padding: 8px 16px; /* Wide pill padding */
+  background: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 999px; /* Makes it a pill */
-  background: white;
+  border-radius: 999px; /* Pill shape */
   cursor: pointer;
   transition: all 0.2s ease;
-
-  order: 1; /* Keeps it after the search and filter pills */
+  order: 1;
+  text-decoration: none;
 }
 
-.pill:hover {
+.itemCard:hover {
   border-color: #4299e1;
-  background: #f7fafc;
+  box-shadow: 0 4px 12px rgba(66, 153, 225, 0.15);
+  transform: translateY(-2px);
 }
 
 .favicon {
@@ -159,44 +174,132 @@
   border-radius: 4px;
 }
 
-.name {
+.itemTitle {
   font-size: 0.9rem;
   font-weight: 500;
   color: #2d3748;
   white-space: nowrap;
 }
 
-/* The Hover Popup */
+/* The Popup Card (Works on both Desktop and Mobile) */
 .popup {
-  visibility: hidden;
-  opacity: 0;
   position: absolute;
-  bottom: 120%; /* Sits above the pill */
+  bottom: calc(100% + 12px);
   left: 50%;
-  transform: translateX(-50%);
-  width: 200px;
-  background: #2d3748;
-  color: white;
-  padding: 12px;
-  border-radius: 8px;
-  z-index: 10;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition:
-    opacity 0.2s,
-    visibility 0.2s;
-  pointer-events: none; /* Prevents the popup from flickering */
+  transform: translateX(-50%) translateY(10px);
+  width: 400px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 50;
+  pointer-events: none;
 }
 
-.pill:hover .popup {
-  visibility: visible;
+.itemCard:hover .popup {
   opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Pop-up internal text styling */
+.popupTitle {
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+  color: #1a202c;
+  white-space: normal; /* Allows text to wrap */
+}
+
+.popupCategory {
+  font-size: 0.7rem;
+  font-weight: bold;
+  color: #4299e1;
+  text-transform: uppercase;
+}
+
+.popupDesc {
+  margin: 10px 0;
+  font-size: 0.85rem;
+  color: #4a5568;
+  line-height: 1.4;
+}
+
+.tagContainer {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid #edf2f7;
 }
 
 .tag {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.2);
-  padding: 2px 6px;
+  background: #edf2f7;
+  color: #66686c;
+  font-size: 0.75rem;
+  padding: 3px 7px;
+  margin: 0 3px;
   border-radius: 4px;
-  font-size: 0.7rem;
-  margin: 2px;
+}
+
+/* Icon-only view for mobile devices */
+
+@media (max-width: 768px) {
+  .galleryHeader {
+    display: none;
+  }
+
+  .grid {
+    padding: 10px;
+    margin: auto;
+    justify-content: center;
+  }
+
+  .searchPill {
+    padding: 3px 8px; /* Reduce padding for mobile */
+    min-width: 30px; /* Shrink the minimum width */
+    height: 32px; /* Slightly smaller height */
+    flex-basis: 100%; /* Make it full width on mobile */
+  }
+
+  .filterPill {
+    padding: 5px 12px; /* Reduce padding for mobile */
+  }
+
+  .filterPillName {
+    display: none; /* Hide the text on filter pills for mobile */
+  }
+
+  .filterPillIcon {
+    margin: 0;
+  }
+
+  .itemCard {
+    padding: 3px 15px; /* Remove the wide padding */
+    justify-content: center; /* Center the icon */
+  }
+
+  .itemTitle {
+    display: none; /* Hide the text completely on phones! */
+  }
+
+  .favicon {
+    width: 24px; /* Make the icon slightly bigger for fat fingers */
+    height: 24px;
+  }
+
+  .popup {
+    width: 180px;
+    padding: 9px;
+    pointer-events: auto; /* Allow interaction on mobile */
+  }
+
+  .popupDesc {
+    max-height: 100px;
+    overflow: scroll;
+  }
 }
