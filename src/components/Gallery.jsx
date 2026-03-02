@@ -3,9 +3,12 @@ import { db } from "../firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import styles from "./Gallery.module.css";
 
+const CATEGORIES = ["All", "Design", "Development", "Art", "Reference"];
+
 const Gallery = () => {
   const [uploads, setUploads] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const inputRef = React.useRef(null);
 
   const handleClear = () => {
@@ -33,18 +36,26 @@ const Gallery = () => {
   }, []);
 
   // 3. Filtering logic for keywords/search
-  const filteredUploads = uploads.filter(
-    (item) =>
+  const filteredUploads = uploads.filter((item) => {
+    // Check if it matches the search term
+    const matchesSearch =
       item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.tags.some((tag) =>
         tag.toLowerCase().includes(searchTerm.toLowerCase()),
-      ),
-  );
+      );
+
+    // Check if it matches the category (If 'All' is selected, automatically match)
+    const matchesCategory =
+      selectedCategory === "All" || item.category === selectedCategory;
+
+    // Only return the item if it passes BOTH tests
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className={styles.container}>
       <div className={styles.grid}>
-        {/* Search bar */}
+        {/* 1. Search bar */}
         <div className={styles.searchPill}>
           <span className={styles.searchIcon}>🔍</span>
           <input
@@ -66,7 +77,19 @@ const Gallery = () => {
             </button>
           )}
         </div>
-        {/* Displaying filtered uploads */}
+
+        {/* 2. The Toggleable Category Filters */}
+        {CATEGORIES.map((category) => (
+          <button
+            key={category}
+            onClick={() => setSelectedCategory(category)}
+            className={`${styles.filterPill} ${selectedCategory === category ? styles.activeFilter : ""}`}
+          >
+            {category}
+          </button>
+        ))}
+
+        {/* 3. pill shaped bookmarks */}
         {filteredUploads.map((item) => {
           // Extract domain to get the favicon
           const domain = new URL(item.url).hostname;

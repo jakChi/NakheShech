@@ -96,6 +96,41 @@
   transform: scale(1.1);
 }
 
+/* The Base Filter Pill */
+.filterPill {
+  background: transparent;
+  border: 1px dashed #cbd5e0; /* Dashed border makes it look like a 'control' rather than data */
+  color: #4a5568;
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  /* Keeps the filters near the top right after the search bar */
+  order: 0;
+}
+
+.filterPill:hover {
+  border-style: solid;
+  border-color: #a0aec0;
+  background: #f7fafc;
+}
+
+/* The Active (Selected) State */
+.activeFilter {
+  background: #2d3748;
+  border: 1px solid #2d3748;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(45, 55, 72, 0.2);
+}
+
+.activeFilter:hover {
+  background: #1a202c;
+  border-color: #1a202c;
+}
+
 /* The Pill */
 .pill {
   position: relative; /* Necessary for the popup to anchor to it */
@@ -108,6 +143,8 @@
   background: white;
   cursor: pointer;
   transition: all 0.2s ease;
+
+  order: 1; /* Keeps it after the search and filter pills */
 }
 
 .pill:hover {

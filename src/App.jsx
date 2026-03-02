@@ -7,9 +7,6 @@ function App() {
   return (
     <LoginGate>
       <div className="App">
-        <header>
-          <h1>Welcome to the Inspiration Hub!</h1>
-        </header>
         <main>
           <UploadForm />
           <Gallery />
