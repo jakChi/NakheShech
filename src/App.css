@@ -33,6 +33,11 @@
 }
 
 @media (max-width: 768px) {
+  .appContainer {
+    padding: 10px;
+    max-width: 100%;
+  }
+
   .appHeader {
     font-size: 0.9rem;
     margin-bottom: 0;
@@ -44,5 +49,6 @@
 
   .dashboard {
     flex-direction: column;
+    padding: 0;
   }
 }
