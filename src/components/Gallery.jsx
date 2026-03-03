@@ -4,16 +4,16 @@ import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import styles from "./Gallery.module.css";
 
 const CATEGORIES = [
-  { name: "All", icon: "📁" },
-  { name: "Outdoors", icon: "🏞️" },
-  { name: "Websites", icon: "🌐" },
-  { name: "Apps", icon: "📱" },
-  { name: "Videos", icon: "📺" },
-  { name: "Podcasts", icon: "🎙️" },
-  { name: "Books", icon: "📚" },
-  { name: "Articles", icon: "📰" },
-  { name: "Songs", icon: "🎵" },
-  { name: "Other", icon: "📦" },
+  { id: 1, name: "All", icon: "📁" },
+  { id: 2, name: "Outdoors", icon: "🏞️" },
+  { id: 3, name: "Websites", icon: "🌐" },
+  { id: 4, name: "Apps", icon: "📱" },
+  { id: 5, name: "Videos", icon: "📺" },
+  { id: 6, name: "Podcasts", icon: "🎙️" },
+  { id: 7, name: "Books", icon: "📚" },
+  { id: 8, name: "Articles", icon: "📰" },
+  { id: 9, name: "Songs", icon: "🎵" },
+  { id: 10, name: "Other", icon: "📦" },
 ];
 
 const Gallery = () => {
@@ -94,7 +94,7 @@ const Gallery = () => {
         {/* 2. The Toggleable Category Filters */}
         {CATEGORIES.map((category) => (
           <button
-            key={category}
+            key={category.id}
             onClick={() => setSelectedCategory(category)}
             className={`${styles.filterPill} ${selectedCategory.name === category.name ? styles.activeFilter : ""}`}
           >
