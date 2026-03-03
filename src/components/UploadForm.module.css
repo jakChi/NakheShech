@@ -61,6 +61,38 @@
   resize: vertical;
 }
 
+/* The tag suggestions Row */
+.suggestionsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin-top: -6px; /* Pulls it slightly closer to the input field above it */
+  margin-bottom: 8px;
+}
+
+.suggestionsLabel {
+  font-size: 0.75rem;
+  color: #a0aec0;
+}
+
+.suggestionPill {
+  background: #edf2f7;
+  border: 1px solid #e2e8f0;
+  color: #4a5568;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.6rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.suggestionPill:hover {
+  background: #e2e8f0;
+  border-color: #cbd5e0;
+  color: #2d3748;
+}
+
 /* The More Toggle */
 .moreToggleBtn {
   background: none;
@@ -79,9 +111,9 @@
 
 /* Expandable Area Animation */
 .expandableArea {
-  max-height: 0;
   opacity: 0;
-  overflow: hidden;
+  max-height: 0;
+  overflow: scroll;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -89,7 +121,7 @@
 }
 
 .expanded {
-  max-height: 200px;
+  max-height: 500px; /* Large enough to fit the content */
   opacity: 1;
   margin-top: 4px;
 }

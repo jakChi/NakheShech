@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  onSnapshot,
+  query,
+} from "firebase/firestore";
 import emailjs from "emailjs-com";
 import styles from "./UploadForm.module.css";
 
@@ -17,6 +23,36 @@ const UploadForm = () => {
   const [loading, setLoading] = useState(false);
   const [showMore, setShowMore] = useState(false); // Controls the extra fields
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [suggestedTags, setSuggestedTags] = useState([]); // For dynamic tag suggestions based on category
+
+  useEffect(() => {
+    const q = query(collection(db, "uploads"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const uniqueTags = new Set();
+
+      snapshot.forEach((doc) => {
+        const itemTags = doc.data().tags || [];
+        itemTags.forEach((tag) => uniqueTags.add(tag));
+      });
+
+      // Convert the Set back to an array and limit to the last 10 tags so it doesn't clutter the UI
+      setSuggestedTags(Array.from(uniqueTags).slice(0, 5));
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  // Function to append a clicked tag to the input
+  const handleTagClick = (tagToAppend) => {
+    // Check if they already typed it to prevent duplicates
+    if (formData.tags.includes(tagToAppend)) return;
+
+    const newTags = formData.tags
+      ? `${formData.tags}, ${tagToAppend}` // If there's already text, add a comma
+      : tagToAppend; // If it's empty, just add the tag
+
+    setFormData({ ...formData, tags: newTags });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -177,6 +213,22 @@ const UploadForm = () => {
                 setFormData({ ...formData, tags: e.target.value })
               }
             />
+            {/* Show dynamic tag suggestions based on existing tags in the database */}
+            {suggestedTags.length > 0 && (
+              <div className={styles.suggestionsWrapper}>
+                <span className={styles.suggestionsLabel}>Suggested:</span>
+                {suggestedTags.map((tag) => (
+                  <button
+                    key={tag}
+                    type="button"
+                    className={styles.suggestionPill}
+                    onClick={() => handleTagClick(tag)}
+                  >
+                    +{tag}
+                  </button>
+                ))}
+              </div>
+            )}
             <textarea
               className={styles.textarea}
               placeholder="Description or Notes..."
