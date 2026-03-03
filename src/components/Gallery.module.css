@@ -23,12 +23,12 @@
   position: relative;
 
   /* Initial State */
-  background: #f1f5f9;
+  background: transparent;
   border: 1px solid #1366d2;
   border-radius: 999px;
-  padding: 8px;
+  padding: 12px;
   min-width: 200px;
-  height: 36px; /* Fixed height keeps it stable during expansion */
+  height: 40px; /* Fixed height keeps it stable during expansion */
 
   /* The Secret Sauce: Flex properties */
   flex-grow: 0;

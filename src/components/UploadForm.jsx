@@ -9,7 +9,7 @@ const UploadForm = () => {
     title: "",
     url: "",
     tags: "",
-    category: "Science",
+    category: "Select a category",
     description: "",
     sharedBy: "",
   };
@@ -129,21 +129,27 @@ const UploadForm = () => {
               setFormData({ ...formData, category: e.target.value })
             }
           >
-            <option value="Design">Science</option>
-            <option value="Development">Computer</option>
-            <option value="Art">Art</option>
-            <option value="Reference">Reference</option>
+            <option value="">Select a category</option>
+            <option value="Outdoors">Outdoors</option>
+            <option value="Songs">Songs</option>
+            <option value="Books">Books</option>
+            <option value="Websites">Websites</option>
+            <option value="Apps">Apps</option>
+            <option value="Videos">Videos</option>
+            <option value="Podcasts">Podcasts</option>
+            <option value="Articles">Articles</option>
+            <option value="Other">Other</option>
           </select>
 
           <input
             className={styles.input}
             type="text"
-            placeholder="Your Name"
+            placeholder="Your username (or anonymous)"
             value={formData.sharedBy}
             onChange={(e) =>
               setFormData({ ...formData, sharedBy: e.target.value })
             }
-            required={showMore} // Only require if they opened this section
+            required // Only require if they opened this section
           />
 
           {/* The "More" Toggle Button */}

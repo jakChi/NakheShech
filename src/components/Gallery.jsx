@@ -5,10 +5,15 @@ import styles from "./Gallery.module.css";
 
 const CATEGORIES = [
   { name: "All", icon: "📁" },
-  { name: "Science", icon: "🔬" },
-  { name: "Computer", icon: "💻" },
-  { name: "Art", icon: "🎨" },
-  { name: "Reference", icon: "📚" },
+  { name: "Outdoors", icon: "🏞️" },
+  { name: "Websites", icon: "🌐" },
+  { name: "Apps", icon: "📱" },
+  { name: "Videos", icon: "📺" },
+  { name: "Podcasts", icon: "🎙️" },
+  { name: "Books", icon: "📚" },
+  { name: "Articles", icon: "📰" },
+  { name: "Songs", icon: "🎵" },
+  { name: "Other", icon: "📦" },
 ];
 
 const Gallery = () => {
