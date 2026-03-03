@@ -8,7 +8,7 @@ function App() {
     <LoginGate>
       <div className="appContainer">
         <header className="appHeader">
-          <h1> What's New?</h1>
+          <h1> What's New and Keepworthy?</h1>
         </header>
         <div className="appDivider" />
         <div className="dailyFunFact" style={{ textAlign: "center" }}>
