@@ -9,7 +9,7 @@ const UploadForm = () => {
     title: "",
     url: "",
     tags: "",
-    category: "Select a category",
+    category: "",
     description: "",
     sharedBy: "",
   };
@@ -128,8 +128,11 @@ const UploadForm = () => {
             onChange={(e) =>
               setFormData({ ...formData, category: e.target.value })
             }
+            required
           >
-            <option value="">Select a category</option>
+            <option value="" disabled>
+              Select a category
+            </option>
             <option value="Outdoors">Outdoors</option>
             <option value="Songs">Songs</option>
             <option value="Books">Books</option>
@@ -208,4 +211,3 @@ const UploadForm = () => {
 };
 
 export default UploadForm;
-
